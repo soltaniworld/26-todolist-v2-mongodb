@@ -69,7 +69,7 @@ app.get("/about", function(req, res){
   res.render("about");
 });
 
-//udpate post route
+//update post route
 app.post('/update', (req, res)=>{
   const id = req.body.id;
   const completed = req.body.completed
@@ -78,6 +78,16 @@ app.post('/update', (req, res)=>{
   .then(()=>{
     res.send("recieved");
   });
+});
+
+//delete post route
+app.post('/delete', (req, res) => {
+  const id = req.body.id;
+  console.log(req.body);
+  Todo.findByIdAndDelete(id)
+    .then(() => {
+      res.send("recieved");
+    });
 });
 
 // =================================== SERVER LISTENER ===================================

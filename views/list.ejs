@@ -5,17 +5,16 @@
   </div>
 
   <div class="box">
-    <!-- start foreach -->
     <% items.forEach(item => { %>
       <div class="item">
         <input class="checkbox" type="checkbox" name="<%= item._id %>" <%= item.completed? "checked" : "" %>>
         <p><%=  item.task  %></p>
+        <span class="delete-item"></span>
       </div>
     <% }) %>
-    <!-- end foreach -->
 
       <form class="item" action="/" method="post">
-        <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+        <input id="new-item-input" type="text" name="newItem" placeholder="New Item" autocomplete="off">
         <button type="submit" name="list" value="<%= listTitle.toLowerCase().includes('work') ? 'work' : 'home' %>">+</button>
       </form>
   </div>
