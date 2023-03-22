@@ -22,7 +22,7 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.use(express.urlencoded({extended: true}));
-app.use(express.json());
+app.use(express.json()); // reads JSON requests
 app.use(express.static("public"));
 
 const items = ["Buy Food", "Cook Food", "Eat Food"];
@@ -71,10 +71,14 @@ app.get("/about", function(req, res){
 
 //udpate post route
 app.post('/update', (req, res)=>{
-  const body = req.body;
-  console.log(body);
-  res.send("recieved");
-})
+  const id = req.body.id;
+  const completed = req.body.completed
+  console.log(req.body.completed);
+  Todo.findByIdAndUpdate(id, { completed: completed })
+  .then(()=>{
+    res.send("recieved");
+  });
+});
 
 // =================================== SERVER LISTENER ===================================
 app.listen(3000, function() {
