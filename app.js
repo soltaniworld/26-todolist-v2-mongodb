@@ -1,7 +1,6 @@
 //jshint esversion:6
 
 const express = require("express");
-const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
 const mongoose 	= require("mongoose");
 const db = require('./models/connect');
@@ -22,7 +21,8 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 app.use(express.static("public"));
 
 const items = ["Buy Food", "Cook Food", "Eat Food"];
@@ -69,6 +69,12 @@ app.get("/about", function(req, res){
   res.render("about");
 });
 
+//udpate post route
+app.post('/update', (req, res)=>{
+  const body = req.body;
+  console.log(body);
+  res.send("recieved");
+})
 
 // =================================== SERVER LISTENER ===================================
 app.listen(3000, function() {
