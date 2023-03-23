@@ -90,6 +90,10 @@ app.post('/delete', (req, res) => {
     });
 });
 
+app.get('*', (req, res)=>{
+  res.status(404).send('Error 404, page not found');
+})
+
 // =================================== SERVER LISTENER ===================================
 app.listen(3000, function() {
   console.log("Server started on port 3000");
