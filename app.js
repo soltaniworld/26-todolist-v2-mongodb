@@ -7,26 +7,12 @@ const db = require('./models/connect');
 const Todo = require('./models/todo');
 
 db.connect(mongoose);
-
-const task = new Todo({
-  task: 'testing another one',
-  completed: true,
-  list: 'home'
-});
-// task.save();
-
-// getList('home');
-
 const app = express();
-
 app.set('view engine', 'ejs');
-
 app.use(express.urlencoded({extended: true}));
 app.use(express.json()); // reads JSON requests
 app.use(express.static("public"));
 
-const items = ["Buy Food", "Cook Food", "Eat Food"];
-const workItems = [];
 
 
 // =================================== ROUTES ===================================
