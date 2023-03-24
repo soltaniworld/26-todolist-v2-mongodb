@@ -2,102 +2,98 @@
 
 const express = require("express");
 const date = require(__dirname + "/date.js");
-const mongoose 	= require("mongoose");
+const mongoose = require("mongoose");
 const db = require('./models/connect');
+const { distinct } = require("./models/todo");
 const Todo = require('./models/todo');
 
 db.connect(mongoose);
 const app = express();
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // reads JSON requests
 app.use(express.static("public"));
 
 
 
+
 // =================================== ROUTES ===================================
 
-//home GET route
-app.get("/", function(req, res) {
-  const day = date.getDate();
-  //return list of items under list 'home'
-  Todo.find({list: 'home'})
-  .then((items)=>{
-    res.render("list", {listTitle: day, items: items});
+//GET route - redirect / to /home
+app.get('/', (req, res)=>{
+  res.redirect('/home');
+});
+
+//GET route - Loads list
+app.get("/:list", (req, res) => {
+  const listName = req.params.list;
+  let lists = [];
+  getDistinctLists()
+  .then((lists) => {
+    Todo.find({ list: listName})
+      .then((items) => {
+        res.render("list", { 
+          listTitle: listName,
+          items: items,
+          lists: lists
+         });
+      });
   });
 });
 
-
-//home POST route
-app.post("/", function(req, res){
-  const item = req.body.newItem;
-  console.log(req.body);
-  if (req.body.list === "work") {
-    pushToList(item, 'work');
-    res.redirect("/work");
-  } else {
-    pushToList(item, 'home');
-    res.redirect("/");
-  }
-});
-
-//work GET route
-app.get("/work", function(req,res){
-  //return list of items under list 'work'
-  Todo.find({ list: 'work' })
-    .then((items) => {
-      res.render("list", { listTitle: "Work List", items: items });
-    })
+// POST route - adds new task from input into DB
+app.post("/add/:list", function (req, res) {
+  const task = req.body.newItem;
+  const listName = req.params.list;
+  pushToList(task, listName);
+  res.redirect(`/${listName}`);
 });
 
 //about GET route
-app.get("/about", function(req, res){
+app.get("/about", function (req, res) {
   res.render("about");
 });
 
-//update post route
-app.post('/update', (req, res)=>{
-  const id = req.body.id;
-  const completed = req.body.completed
-  console.log(req.body.completed);
-  Todo.findByIdAndUpdate(id, { completed: completed })
-  .then(()=>{
-    res.send("recieved");
-  });
-});
-
-//delete post route
-app.post('/delete', (req, res) => {
-  const id = req.body.id;
-  console.log(req.body);
-  Todo.findByIdAndDelete(id)
+// POST route - updates completed status of item in DB 
+app.post('/taskChecked', (req, res) => {
+  Todo.findByIdAndUpdate(req.body.id, { completed: req.body.completed })
     .then(() => {
       res.send("recieved");
     });
 });
 
-app.get('*', (req, res)=>{
+// POST route - DELETE item from DB
+app.post('/deleteTask', (req, res) => {
+  Todo.findByIdAndDelete(req.body.id)
+    .then(() => {
+      res.send("recieved");
+    });
+});
+
+// GET route - all other URLs
+app.get('*', (req, res) => {
   res.status(404).send('Error 404, page not found');
 })
 
 // =================================== SERVER LISTENER ===================================
-app.listen(3000, function() {
+app.listen(3000, function () {
   console.log("Server started on port 3000");
 });
 
 // =================================== callback functions ===================================
 
 //find and return list of tasks under listname
-async function getList(list) {
-  Todo.find({ list: list })
-    .then((lists) => {
-      console.log(lists);
-      return lists
-    })
+async function getList(listName) {
+  try {
+    const todos = await Todo.find({ list: listName }).exec();
+    return todos;
+  } catch (err) {
+    return null;
+  }
 }
 
 //save new task to list
-function pushToList(task, list){
+function pushToList(task, list) {
   const todo = new Todo({
     task: task,
     completed: false,
@@ -105,3 +101,11 @@ function pushToList(task, list){
   });
   todo.save();
 }
+
+
+//find show distinct
+async function getDistinctLists() {
+  const lists = await Todo.find().distinct('list').exec();
+  return lists;
+}
+

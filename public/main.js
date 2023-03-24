@@ -4,7 +4,7 @@ checkboxes.forEach(checkbox => {
     checkbox.addEventListener('click', () => {
         console.log(`${checkbox.name} is ${checkbox.checked? 'checked' : 'unchecked'}`);
 
-        fetch('/update', {
+        fetch('/taskChecked', {
             method: 'POST',
             body: JSON.stringify({
                 id: checkbox.name,
@@ -34,7 +34,7 @@ deleteButtons.forEach((button) => {
     const checkbox = button.parentElement.querySelector(".checkbox");
     button.addEventListener('click', () => {
         // do something when the X button is clicked
-        fetch('/delete', {
+        fetch('/deleteTask', {
             method: 'POST',
             body: JSON.stringify({
                 id: checkbox.name
