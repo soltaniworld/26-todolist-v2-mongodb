@@ -10,8 +10,11 @@
 <body>
 
 <!-- NAV bar showing each list -->
-<div class="nav">
-  <% lists.forEach(list => { %>
-   <a href="/<%= list %>"><%= list %></a>
-  <% }) %>
-</div>
+<nav>
+  <!-- <div class="logo">My Website</div> -->
+  <ul>
+      <% lists.forEach(list=> { %>
+    <li><a href="/<%= list %>"><%= list %></a></li>
+      <% }) %>
+  </ul>
+</nav>

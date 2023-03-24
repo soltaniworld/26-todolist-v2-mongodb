@@ -1,8 +1,15 @@
 html {
   background-color: #E4E9FD;
-  background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%);
+  background-image: -webkit-linear-gradient(65deg, #57cc99 50%, #E4E9FD 50%);
   min-height: 1000px;
   font-family: 'helvetica neue';
+  margin: 0;
+  padding: 0;
+}
+body{
+  margin: 0;
+  padding: 0;
+  padding-top: 40px;
 }
 
 h1 {
@@ -19,7 +26,7 @@ h1 {
 }
 
 #heading {
-  background-color: #A683E3;
+  background-color: #57cc99;
   text-align: center;
 }
 
@@ -36,7 +43,7 @@ h1 {
 
 input:checked+p {
   text-decoration: line-through;
-  text-decoration-color: #A683E3;
+  text-decoration-color: #57cc99;
 }
 
 input[type="checkbox"] {
@@ -61,7 +68,7 @@ button {
   width: 50px;
   border-radius: 50%;
   border-color: transparent;
-  background-color: #A683E3;
+  background-color: #57cc99;
   color: #fff;
   font-size: 30px;
   padding-bottom: 6px;
@@ -81,7 +88,7 @@ input[type="text"] {
 
 input[type="text"]:focus {
   outline: none;
-  box-shadow: inset 0 -3px 0 0 #A683E3;
+  box-shadow: inset 0 -3px 0 0 #57cc99;
 }
 
 ::placeholder {
@@ -99,7 +106,7 @@ footer {
   position: relative;
 }
 
-.delete-item{
+.delete-item {
   position: absolute;
   right: 10px;
   /* background-color: red; */
@@ -120,4 +127,50 @@ footer {
 
 .item:hover .delete-item {
   opacity: 1;
+}
+
+/* Navbar styles */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #57cc99;
+  color: #fff;
+  padding: 10px;
+  font-size: 18px;
+  opacity: 0.7;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* Logo styles */
+.logo {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+/* Links styles */
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  margin: 0 10px;
+}
+
+li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Active link styles */
+.active {
+  border-bottom: 2px solid #fff;
 }
