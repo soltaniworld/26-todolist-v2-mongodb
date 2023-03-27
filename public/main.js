@@ -76,3 +76,11 @@ window.onload = function () {
     const myTextInput = document.querySelector("#new-item-input");
     myTextInput.focus();
 }
+
+const btnNewList = document.querySelector("#btn-new-list");
+
+btnNewList.addEventListener("click", () => {
+    const url = document.querySelector('.list-name').innerText.trim();
+    // Redirect to the new URL
+    window.location.href = url;
+})
