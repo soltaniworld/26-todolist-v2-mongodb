@@ -20,21 +20,26 @@ app.use(express.static("public"));
 // =================================== ROUTES ===================================
 
 //GET route - redirect / to /home
-app.get('/', (req, res)=>{
+app.get('/', (req, res) => {
   res.redirect('/home');
 });
 
 
 // POST route - adds new task from input into DB
 app.post("/updateTask", function (req, res) {
-  const text = req.body.text;
+  const task = req.body.task;
   const id = req.body.id;
-  Todo.findByIdAndUpdate(id, {task: text})
+  const completed = req.body.completed;
+  Todo.findByIdAndUpdate(id, { 
+    task: task,
+    completed: completed
+  })
     .then(() => {
       res.status(200).send("updated");
     });
-  console.log(req.body.text);
   console.log(req.body.id);
+  // res.status(200).send("updated");
+  // console.log(req.body.id);
 });
 
 
@@ -49,14 +54,6 @@ app.post("/add/:list", function (req, res) {
 //about GET route
 app.get("/about", function (req, res) {
   res.render("about");
-});
-
-// POST route - updates completed status of item in DB 
-app.post('/taskChecked', (req, res) => {
-  Todo.findByIdAndUpdate(req.body.id, { completed: req.body.completed })
-    .then(() => {
-      res.send("recieved");
-    });
 });
 
 // POST route - DELETE item from DB

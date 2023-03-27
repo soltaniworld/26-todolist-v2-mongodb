@@ -195,7 +195,7 @@ li a {
 }
 
 /* only show new list button if input active */
-#input-new-list:focus+button .input-new-list-changed{
+#input-new-list:hover+button{
   display: inline-block;
   position: absolute;
   right: 15px;
