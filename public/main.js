@@ -1,9 +1,13 @@
 const items = document.querySelectorAll('.item');
 let timeoutId; //needed to reset timer for  debouncing
 
+//add event  listeners for each task/item
 items.forEach(item => {
     const checkbox = item.querySelector('input');
     const task = item.querySelector('.task');
+    const deleteBtn = item.querySelector('.delete-item');
+
+    //update  task completion status on check
     checkbox.addEventListener('click', () => {
         const taskObj = {
             id: checkbox.name,
@@ -12,7 +16,7 @@ items.forEach(item => {
         console.log(taskObj);
         updateTask(taskObj, "/updateTask");
     });
-    //listen to text change in task
+    //update task's  text when updated
     task.addEventListener('input', () => {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => {
@@ -25,15 +29,14 @@ items.forEach(item => {
         }, 1000);
     });
 
-});
-
-//add listener for deleting a task when X is clicked
-const deleteButtons = document.querySelectorAll('.delete-item');
-deleteButtons.forEach((button) => {
-    const checkbox = button.parentElement.querySelector(".checkbox");
-    button.addEventListener('click', () => {
-        updateTask({ id: checkbox.name }, "/deleteTask", removeElements = [button.parentElement]) 
+    //delete task when button clicked
+    deleteBtn.addEventListener('click', () => {
+        const taskObj = {
+            id: task.id
+        };
+        updateTask(taskObj, "/deleteTask", [deleteBtn.parentElement]);
     });
+
 });
 
 // send POST request to /updateTask with updated information to DB
