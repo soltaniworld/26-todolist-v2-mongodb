@@ -83,4 +83,13 @@ btnNewList.addEventListener("click", () => {
     const url = document.querySelector('.list-name').innerText.trim();
     // Redirect to the new URL
     window.location.href = url;
+});
+
+// highlight the currently active list in navbar
+const menuLinks = document.querySelectorAll('nav a');
+const listTitle = document.querySelector('.list-name').innerText;
+menuLinks.forEach((link)=>{
+    if (link.innerText == listTitle){
+        link.classList.add('active');
+    }
 })
