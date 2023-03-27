@@ -8,8 +8,12 @@ function connect(mongoose) {
     const username = process.env.db_USER;
     const pw = process.env.db_PW;
     const cluster_name = process.env.db_cluster;
+    const connectionString = `mongodb+srv://${username}:${pw}@${cluster_name}/${database}?retryWrites=true&w=majority`;
+    // replace the above with your own connection string
+    // const connectionString = 'mongodb://127.0.0.1:27017/myappname'
+    
     // Connect to your remote MongoDB database using Mongoose
-    mongoose.connect(`mongodb+srv://${username}:${pw}@${cluster_name}/${database}?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true })
+    mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => {
             console.log('Connected to MongoDB');
         })
