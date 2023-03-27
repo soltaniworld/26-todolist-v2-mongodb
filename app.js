@@ -24,22 +24,19 @@ app.get('/', (req, res)=>{
   res.redirect('/home');
 });
 
-//GET route - Loads list
-app.get("/:list", (req, res) => {
-  const listName = req.params.list;
-  let lists = [];
-  getDistinctLists()
-  .then((lists) => {
-    Todo.find({ list: listName})
-      .then((items) => {
-        res.render("list", { 
-          listTitle: listName,
-          items: items,
-          lists: lists
-         });
-      });
-  });
+
+// POST route - adds new task from input into DB
+app.post("/updateTask", function (req, res) {
+  const text = req.body.text;
+  const id = req.body.id;
+  Todo.findByIdAndUpdate(id, {task: text})
+    .then(() => {
+      res.status(200).send("updated");
+    });
+  console.log(req.body.text);
+  console.log(req.body.id);
 });
+
 
 // POST route - adds new task from input into DB
 app.post("/add/:list", function (req, res) {
@@ -67,6 +64,23 @@ app.post('/deleteTask', (req, res) => {
   Todo.findByIdAndDelete(req.body.id)
     .then(() => {
       res.send("recieved");
+    });
+});
+
+//GET route - Loads list
+app.get("/:list", (req, res) => {
+  const listName = req.params.list;
+  let lists = [];
+  getDistinctLists()
+    .then((lists) => {
+      Todo.find({ list: listName })
+        .then((items) => {
+          res.render("list", {
+            listTitle: listName,
+            items: items,
+            lists: lists
+          });
+        });
     });
 });
 
