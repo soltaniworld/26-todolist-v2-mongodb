@@ -9,7 +9,6 @@ items.forEach(item => {
             id: checkbox.name,
             completed: checkbox.checked
         }
-        // console.log(`${checkbox.name} is ${checkbox.checked ? 'checked' : 'unchecked'}`);
         console.log(taskObj);
         updateTask(taskObj, "/updateTask");
     });
@@ -30,36 +29,15 @@ items.forEach(item => {
 
 //add listener for deleting a task when X is clicked
 const deleteButtons = document.querySelectorAll('.delete-item');
-
 deleteButtons.forEach((button) => {
     const checkbox = button.parentElement.querySelector(".checkbox");
     button.addEventListener('click', () => {
-        // do something when the X button is clicked
-        fetch('/deleteTask', {
-            method: 'POST',
-            body: JSON.stringify({
-                id: checkbox.name
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if (response.ok) {
-                    console.log('POST request to DELETE sent successfully.');
-                    button.parentElement.remove();
-                } else {
-                    throw new Error('POST request  to DELETE failed.');
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        updateTask({ id: checkbox.name }, "/deleteTask", removeElements = [button.parentElement]) 
     });
 });
 
 // send POST request to /updateTask with updated information to DB
-function updateTask(taskObj, route) {
+function updateTask(taskObj, route, removeElements = []) {
     const id = taskObj.id;
     const completed = taskObj.completed;
     const task = taskObj.task;
@@ -78,6 +56,9 @@ function updateTask(taskObj, route) {
     .then(response => {
         if (response.ok) {
             console.log('POST request sent successfully.');
+            removeElements.forEach((e)=>{
+                e.remove();
+            })
         } else {
             throw new Error('POST request failed.');
         }

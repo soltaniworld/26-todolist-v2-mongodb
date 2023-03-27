@@ -181,12 +181,12 @@ li a {
   padding: 0;
 }
 
-.container-new-list  > h1{
+#heading{
   position: relative;
 }
 
 /* Hide new lust  submit button if input not active */
-#submit-new-list{
+#btn-new-list{
   display: none;
   font-size: 20px;
   background: #fff;
@@ -195,10 +195,10 @@ li a {
 }
 
 /* only show new list button if input active */
-#input-new-list:hover+button{
+#heading:hover button{
   display: inline-block;
   position: absolute;
   right: 15px;
-  top: 15px;
+  top: 5px;
   transition: 0.4 ease;
 }

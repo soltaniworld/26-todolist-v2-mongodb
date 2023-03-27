@@ -30,7 +30,7 @@ app.post("/updateTask", function (req, res) {
   const task = req.body.task;
   const id = req.body.id;
   const completed = req.body.completed;
-  Todo.findByIdAndUpdate(id, { 
+  Todo.findByIdAndUpdate(id, {
     task: task,
     completed: completed
   })
@@ -46,9 +46,14 @@ app.post("/updateTask", function (req, res) {
 // POST route - adds new task from input into DB
 app.post("/add/:list", function (req, res) {
   const task = req.body.newItem;
-  const listName = req.params.list;
-  pushToList(task, listName);
-  res.redirect(`/${listName}`);
+  const listName = req.params.list.trim();
+  if (listName != "") {
+    pushToList(task, listName);
+    res.redirect(`/${listName}`);
+  }
+  else{
+    res.redirect('/');
+  }
 });
 
 //about GET route
