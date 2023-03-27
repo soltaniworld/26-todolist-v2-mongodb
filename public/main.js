@@ -77,8 +77,8 @@ window.onload = function () {
     myTextInput.focus();
 }
 
+//  Open  new list or existing list if "new list" button is clicked and list title is changed
 const btnNewList = document.querySelector("#btn-new-list");
-
 btnNewList.addEventListener("click", () => {
     const url = document.querySelector('.list-name').innerText.trim();
     // Redirect to the new URL
