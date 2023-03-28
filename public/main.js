@@ -5,15 +5,15 @@ let timeoutId; //needed to reset timer for  debouncing
 items.forEach(item => {
     const checkbox = item.querySelector('input');
     const task = item.querySelector('.task');
+    const id = item.querySelector('.input-hidden').value;
     const deleteBtn = item.querySelector('.delete-item');
 
     //update  task completion status on check
     checkbox.addEventListener('click', () => {
         const taskObj = {
-            id: checkbox.name,
+            id: id,
             completed: checkbox.checked
         }
-        console.log(taskObj);
         updateTask(taskObj, "/updateTask");
     });
     //update task's  text when updated
@@ -22,17 +22,17 @@ items.forEach(item => {
         timeoutId = setTimeout(() => {
             const taskObj = {
                 task: task.innerText,
-                id: task.id
+                id: id
             }
             // Send a POST request with the updated text
             updateTask(taskObj, '/updateTask')
-        }, 1000);
+        }, 1000); //delay how frequently the request is sent between changes
     });
 
     //delete task when button clicked
     deleteBtn.addEventListener('click', () => {
         const taskObj = {
-            id: task.id
+            id: id
         };
         updateTask(taskObj, "/deleteTask", [deleteBtn.parentElement]);
     });
@@ -41,17 +41,9 @@ items.forEach(item => {
 
 // send POST request to /updateTask with updated information to DB
 function updateTask(taskObj, route, removeElements = []) {
-    const id = taskObj.id;
-    const completed = taskObj.completed;
-    const task = taskObj.task;
-    
     fetch(route, {
         method: 'POST',
-        body: JSON.stringify({
-            id: id,
-            completed: completed ? true : false,
-            task: task
-        }),
+        body: JSON.stringify(taskObj),
         headers: {
             'Content-Type': 'application/json'
         }

@@ -11,8 +11,9 @@
   <div class="box">
     <% items.forEach(item => { %>
       <div class="item">
-        <input class="checkbox" type="checkbox" name="<%= item._id %>" <%= item.completed? "checked" : "" %>>
-        <p contenteditable="true" class="task" id="<%= item._id %>"><%=  item.task  %></p>
+        <input class="checkbox" type="checkbox"  <%= item.completed? "checked" : "" %>>
+        <p contenteditable="true" class="task"><%=  item.task  %></p>
+        <input type="hidden" class="input-hidden" name="itemID" value="<%= item._id %>">
         <span class="delete-item"></span>
       </div>
     <% }) %>
