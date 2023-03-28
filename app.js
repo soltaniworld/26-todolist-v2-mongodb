@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const db = require('./models/connect');
 const { distinct } = require("./models/todo");
 const Todo = require('./models/todo');
+const _ = require('lodash');
 
 db.connect(mongoose);
 const app = express();
@@ -21,7 +22,7 @@ app.use(express.static("public"));
 
 //GET route - redirect / to /home
 app.get('/', (req, res) => {
-  res.redirect('/home');
+  res.redirect('/Today');
 });
 
 
@@ -71,7 +72,7 @@ app.post('/deleteTask', (req, res) => {
 
 //GET route - Loads list
 app.get("/:list", (req, res) => {
-  const listName = req.params.list;
+  const listName = _.capitalize(req.params.list.trim().toLowerCase());
   let lists = [];
   getDistinctLists()
     .then((lists) => {
