@@ -8,7 +8,7 @@ items.forEach(item => {
     const id = item.querySelector('.input-hidden').value;
     const deleteBtn = item.querySelector('.delete-item');
 
-    //update  task completion status on check
+    //update task completion status on check
     checkbox.addEventListener('click', () => {
         const taskObj = {
             id: id,
@@ -16,7 +16,7 @@ items.forEach(item => {
         }
         updateTask(taskObj, "/updateTask");
     });
-    //update task's  text when updated
+    //update task's text when updated
     task.addEventListener('input', () => {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => {
