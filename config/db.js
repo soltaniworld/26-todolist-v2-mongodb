@@ -3,7 +3,9 @@
 
 require('dotenv').config();
 
-function connect(mongoose) {
+const mongoose = require('mongoose');
+
+function connect() {
     const database = process.env.db;
     const username = process.env.db_USER;
     const pw = process.env.db_PW;
@@ -11,7 +13,7 @@ function connect(mongoose) {
     const connectionString = `mongodb+srv://${username}:${pw}@${cluster_name}/${database}?retryWrites=true&w=majority`;
     // replace the above with your own connection string
     // const connectionString = 'mongodb://127.0.0.1:27017/myappname'
-    
+
     // Connect to your remote MongoDB database using Mongoose
     mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => {
@@ -19,4 +21,4 @@ function connect(mongoose) {
         })
 }
 
-module.exports = { connect: connect };
+module.exports = connect;

@@ -2,13 +2,11 @@
 
 const express = require("express");
 const date = require(__dirname + "/date.js");
-const mongoose = require("mongoose");
-const db = require('./models/connect');
-const { distinct } = require("./models/todo");
+const connectDB = require('./config/db');
 const Todo = require('./models/todo');
 const _ = require('lodash');
 
-db.connect(mongoose);
+connectDB();
 const app = express();
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
